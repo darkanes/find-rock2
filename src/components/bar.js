@@ -3,9 +3,9 @@ import React, { Component } from "react";
 class Bar extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
+    this.props.history.push("/busqueda");
   };
   render() {
-    const { handlePush } = this.props;
     return (
       <form
         className="form-inline"
@@ -23,7 +23,7 @@ class Bar extends Component {
           />
         </div>
         <div className="actions">
-          <button className="btng" onClick={handlePush} type="submit">
+          <button className="btng" onClick={this.handleSubmit} type="submit">
             Buscar artista similar
           </button>
           <button className="btng">Kindev</button>

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./page-home.css";
 import logo from "./logo.svg";
-//import Bar from "./components/bar";
+import Bar from "./components/bar";
 
 class PageHome extends React.Component {
   handleSubmit = (e) => {
@@ -23,8 +23,8 @@ class PageHome extends React.Component {
           <div className="col-md-3"></div>
           <div className="col-md-6 centrar">
             <img src={logo} alt="" id="logo" />
-            {/*<Bar />*/}
-            <form
+            <Bar />
+            {/*<form
               className="form-inline"
               onSubmit={this.handleSubmit}
               name="formulario"
@@ -45,7 +45,7 @@ class PageHome extends React.Component {
                 </button>
                 <button className="btng">Kindev</button>
               </div>
-            </form>
+            </form>*/}
           </div>
         </div>
       </div>

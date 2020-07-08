@@ -29,8 +29,8 @@ class SearchBar extends React.Component {
             </Link>
           </div>
           <div className="col-md-4">
-            {/*<Bar />*/}
-            <form
+            <Bar />
+            {/* <form
               className="form-inline"
               onSubmit={this.handleSubmit}
               name="formulario"
@@ -51,7 +51,7 @@ class SearchBar extends React.Component {
                 </button>
                 <button className="btng">Kindev</button>
               </div>
-            </form>
+           </form>*/}
           </div>
         </div>
         <hr />
