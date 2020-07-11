@@ -3,15 +3,92 @@ import "./App.css";
 import SearchBar from "./components/search-bar.js";
 import "./page-artist.css";
 import SimilarArtist from "./components/similar-artist.js";
+import Loading from "./components/loading.js";
+import Error from "./components/error.js";
+import ErrorServer from "./components/errorServer.js";
 
 class PageSearchResult extends Component {
   state = {
+    data: {
+      artist: {
+        image: [
+          { "#text": "" },
+          { "#text": "" },
+          { "#text": "" },
+          { "#text": "" },
+        ],
+        bio: {
+          summary: "",
+        },
+        similar: {
+          artist: [
+            {
+              name: "",
+              url: "",
+              image: [
+                { "#text": "" },
+                { "#text": "" },
+                { "#text": "" },
+                { "#text": "" },
+                { "#text": "" },
+              ],
+            },
+          ],
+        },
+      },
+    },
+
     busqueda: "",
+    error: null,
+    loading: false,
+    serverError: null,
   };
+  componentDidUpdate(prevProps) {
+    if (this.props.location != prevProps.location) {
+      console.log(this.props.location, "coso");
+      this.fetchData();
+    }
+  }
   changeHandle = (e) => {
     this.setState({
       [e.target.name]: e.target.value,
     });
+  };
+  componentDidMount() {
+    this.fetchData();
+  }
+  fetchData = async () => {
+    let artista = this.props.history.location.search.substr(1);
+    let url =
+      "http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=" +
+      artista +
+      "&api_key=dd81a6cf39b3e1379487f91b14346814&format=json";
+
+    try {
+      this.setState({
+        loading: true,
+      });
+      const Response = await fetch(url);
+      const data = await Response.json();
+      console.log(data, "lo que trae la api");
+      if (data.error) {
+        this.setState({
+          error: true,
+          loading: false,
+          errorMessage: data.message,
+        });
+      } else {
+        this.setState({
+          error: false,
+          loading: false,
+          data: data,
+        });
+      }
+    } catch (error) {
+      this.setState({
+        serverError: true,
+      });
+    }
   };
   render() {
     return (
@@ -20,30 +97,25 @@ class PageSearchResult extends Component {
           onChange={this.changeHandle}
           busqueda={this.state.busqueda}
         />
+        {this.state.loading && <Loading></Loading>}
+        {this.state.error && <Error errorMessage={this.state.errorMessage} />}
+        {this.state.serverError && <ErrorServer></ErrorServer>}
         <div className="container">
           <div className="row centrar">
             <div className="col-md-3"></div>
             <div className="col-md-6">
               <img
-                src="https://c-sf.smule.com/sf/s25/arr/b1/d9/f770b66e-f35a-4a0a-8264-b4f7f439039c.jpg"
+                src={this.state.data.artist.image[2]["#text"]}
                 alt=""
                 className="pic-artist margenes50"
               />
 
-              <h2>Gustavo Cerati</h2>
-              <p>
-                Gustavo Adrián Cerati (Buenos Aires, 11 de agosto de
-                1959-ibidem, 4 de septiembre de 2014)3​4​5​ fue un músico,
-                cantautor, compositor y productor discográfico argentino. Obtuvo
-                reconocimiento internacional por haber sido el cantante,
-                guitarrista y compositor principal de la banda de rock Soda
-                Stereo. Es considerado uno de los músicos más importantes,
-                populares e influyentes del rock latinoamericano
-              </p>
+              <h2>{this.state.data.artist.name}</h2>
+              <p>{this.state.data.artist.bio.summary}</p>
             </div>
           </div>
           <div className="row centrar">
-            <SimilarArtist />
+            <SimilarArtist data={this.state.data.artist.similar.artist} />
           </div>
         </div>
       </React.Fragment>

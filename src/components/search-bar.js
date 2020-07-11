@@ -14,10 +14,9 @@ class SearchBar extends React.Component {
   //  e.preventDefault();
   //  console.log(e.target.name, "ayyy gonorreeaaaa");
   //};
-  //handleSubmit = (a) => {
-  //  a.preventDefault();
-  //  console.log(a.target.name);
-  //};
+  handleSubmit = (a) => {
+    a.preventDefault();
+  };
 
   render() {
     return (
@@ -29,8 +28,8 @@ class SearchBar extends React.Component {
             </Link>
           </div>
           <div className="col-md-4">
-            <Bar />
-            {/* <form
+            {/*<Bar />*/}
+            <form
               className="form-inline"
               onSubmit={this.handleSubmit}
               name="formulario"
@@ -45,13 +44,7 @@ class SearchBar extends React.Component {
                   onChange={this.props.onChange}
                 />
               </div>
-              <div className="actions">
-                <button className="btng" type="submit">
-                  Buscar artista similar
-                </button>
-                <button className="btng">Kindev</button>
-              </div>
-           </form>*/}
+            </form>
           </div>
         </div>
         <hr />
