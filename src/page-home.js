@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import "./page-home.css";
 import logo from "./logo.svg";
 import Bar from "./components/bar";
+import ReactDom from "react-dom";
+import Modal from "./components/modal";
 
 class PageHome extends React.Component {
   handleSubmit = (e) => {
@@ -15,6 +17,13 @@ class PageHome extends React.Component {
   };
   state = {
     busqueda: "",
+    modal: false,
+  };
+  handleClick = (e) => {
+    e.preventDefault();
+    this.setState({
+      modal: true,
+    });
   };
   render() {
     return (
@@ -43,11 +52,19 @@ class PageHome extends React.Component {
                 <button className="btng" type="submit">
                   Buscar artista similar
                 </button>
-                <button className="btng">Kindev</button>
+                <button className="btng" onClick={this.handleClick}>
+                  Kindev
+                </button>
               </div>
             </form>
           </div>
         </div>
+        {ReactDom.createPortal(
+          <Modal estado={this.state.modal}>
+            <h4>Aguante yo</h4>
+          </Modal>,
+          document.getElementById("pato")
+        )}
       </div>
     );
   }
